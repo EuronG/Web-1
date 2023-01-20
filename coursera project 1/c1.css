@@ -1,0 +1,39 @@
+body {
+  background: #B3B3B3;
+  font-size: 125%;
+}
+
+header {
+  background: #666666;
+  text-align: center;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+}
+
+h2 {
+  color: #666666;
+  background: #00B7EA;
+}
+
+nav {
+  font-size: 150%;
+}
+
+a {
+  color: #551A8B;
+}
+
+details {
+  font-style: italic;
+}
+
+summary {
+  font-style: normal;
+}
+
+footer {
+  background: #666666;
+}
