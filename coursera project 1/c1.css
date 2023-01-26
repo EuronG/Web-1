@@ -5,7 +5,6 @@ body {
 }
 
 header {
-  background: #00B7EA;
   text-align: center;
 }
 
@@ -79,9 +78,15 @@ img {
 }
 
 footer {
-  background: #00B7EA;
   float: bottom;
   clear: both;
   padding: 7px;
 }
 
+.outer {
+  background: #00B7EA;
+  background: -webkit-linear-gradient(top, rgb(97, 155, 255), rgb(192, 166, 249));
+  background: -moz-linear-gradient(top, rgb(39, 39, 70), rgb(192, 166, 249));
+  background: -o-linear-gradient(top, rgb(39, 39, 70), rgb(192, 166, 249));
+  background: linear-gradient(top, rgb(39, 39, 70), rgb(192, 166, 249));
+}
