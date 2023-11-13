@@ -1,0 +1,38 @@
+h1{
+    text-align: center;
+    color: crimson;
+}
+
+div.contenedor{
+    position: relative;
+    max-width: 80%;
+    width: 200px;
+    height: 230px;
+    margin: auto;
+    border: 3px dashed greenyellow;
+}
+
+.imagen{
+    position: absolute;
+    max-width: 80%;
+    margin: auto;
+    max-width: 100%;
+    max-height: 100%;
+    opacity: 1;
+}
+div.centro{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    visibility: hidden;
+}
+
+div.contenedor:hover > div.centro {
+    visibility: visible;
+}
+
+div.contenedor:hover > img.imagen {
+    opacity: 0.2;
+}
