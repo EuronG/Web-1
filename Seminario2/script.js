@@ -1,105 +1,4 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Detección de Roya</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <style>
-      .resultado {
-        font-weight: bold;
-        font-size: 6rem;
-        text-align: center;
-      }
-    </style>
-  </head>
-  <body>
-    
-    <main>
-      <div class="px-4 py-2 my-2 text-center border-bottom">
-        <h1 class="display-5 fw-bold">Detección de Roya</h1>
-      </div>
-
-      <div class="b-example-divider"></div>
-
-      <div class="container mt-5">
-        <div class="row">
-          <div class="col-12 col-md-4 offset-md-4 text-center">
-            <video id="video" playsinline autoplay style="width: 1px;"></video>
-            <button class="btn btn-primary mb-2" id="cambiar-camara" onclick="cambiarCamara();">Cambiar camara</button>
-            <canvas id="canvas" width="400" height="400" style="max-width: 100%;"></canvas>
-            <canvas id="otrocanvas" width="150" height="150" style="display: none"></canvas>
-            <div class="resultado" id="resultado"></div>            
-          </div>
-        </div>
-      </div>
-
-      <div class="b-example-divider"></div>
-
-
-
-      <div class="b-example-divider mb-0" style="display: flex;
-              flex-direction: column;
-              justify-content: center;
-              align-items: center;">
-        <input class="btn btn-primary mb-2" type="file" id="inputImage" accept="image/*">
-        <br>
-        <img id="selectedImage" style="max-width: 300px; max-height: 300px;">
-        <div class="resultado" id="resultado2"></div>            
-        
-        <script>
-          async function loadImageAndConvertToTensor() {
-              const inputElement = document.getElementById('inputImage');
-              const selectedImage = document.getElementById('selectedImage');
-  
-              // Escuchar el evento change del input de archivo
-              inputElement.addEventListener('change', async (event) => {
-                  const file = event.target.files[0];
-                  if (file) {
-                      // Crear un objeto URL para mostrar la imagen seleccionada
-                      const imageUrl = URL.createObjectURL(file);
-                      selectedImage.src = imageUrl;
-  
-                      // Cargar la imagen y convertirla en un tensor
-                      const image = new Image();
-                      image.src = imageUrl;
-  
-                      image.onload = async () => {
-                          const resizedImage = tf.image.resizeBilinear(tf.browser.fromPixels(image), [128, 128]);
-                  
-                          // Cambiar la forma del tensor para que tenga 4 dimensiones
-                          const batchedTensor = resizedImage.expandDims(0); // Agregar una dimensión de lote
-          
-                          // Normalizar la imagen (0-255 a 0-1)
-                          const normalizedTensor = batchedTensor.div(255.0);
-                          var resultado = modelo.predict(normalizedTensor).dataSync();
-
-                          if (resultado > 0.5) {
-                            document.getElementById("resultado2").innerHTML = 'Tiene Roya';
-                        } else {
-                            document.getElementById("resultado2").innerHTML = 'No tiene Roya';
-                        }
-                  
-                      };
-                  }
-              });
-          }
-  
-          // Llamar a la función al cargar la página
-          loadImageAndConvertToTensor();
-      </script>
-      </div>
-    </main>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
-
-  <script type="text/javascript">
-
-    var tamano = 400;
+var tamano = 400;
     var video = document.getElementById("video");
     var canvas = document.getElementById("canvas");
     var otrocanvas = document.getElementById("otrocanvas");
@@ -213,16 +112,17 @@
         arr = [arr];
         var tensor = tf.tensor4d(arr);
         var resultado = modelo.predict(tensor).dataSync();
+        console.log(resultado);
         if (resultado > 0.5) {
           document.getElementById("resultado2").innerHTML = 'Tiene Roya';
       } else {
           document.getElementById("resultado2").innerHTML = 'No tiene Roya';
       }
-    
       }
 
       setTimeout(predecir, 320);
     }
+    
 
       function resample_single(canvas, width, height, resize_canvas) {
           var width_source = canvas.width;
@@ -293,6 +193,3 @@
 
           ctx2.putImageData(img2, 0, 0);
       }
-  </script>
-  </body>
-</html>

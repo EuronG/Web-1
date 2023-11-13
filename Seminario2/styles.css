@@ -1,0 +1,12 @@
+.resultado {
+    font-weight: bold;
+    font-size: 6rem;
+    text-align: center;
+}
+
+.image-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
