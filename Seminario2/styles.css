@@ -10,3 +10,20 @@
     justify-content: center;
     align-items: center;
 }
+
+.logo {
+    width: 10%;
+    -moz-border-radius: 20px; -webkit-border-radius: 20px; border-radius: 20px; -khtml-border-radius: 20px; 
+}
+
+
+
+
+/* CSS HEX 
+#225C1F
+--thatch-green: #39541e;
+--green-white: #e8e9df;
+--sushi: #8ca345;
+--tobacco-brown: #755e46;
+--battleship-gray: #8c9b7f;
+*/
