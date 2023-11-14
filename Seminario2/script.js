@@ -5,8 +5,49 @@ var tamano = 400;
     var ctx = canvas.getContext("2d");
     var currentStream = null;
     var facingMode = "user";
+    var camuse = true;
 
     var modelo = null;
+
+    async function loadImageAndConvertToTensor() {
+        const inputElement = document.getElementById('inputImage');
+        const selectedImage = document.getElementById('selectedImage');
+
+        // Escuchar el evento change del input de archivo
+        inputElement.addEventListener('change', async (event) => {
+            camuse = false;
+             const file = event.target.files[0];
+                if (file) {
+                    const imageUrl = URL.createObjectURL(file);
+
+
+                    const image = new Image();
+                    image.src = imageUrl;
+
+                    image.onload = async () => {
+                        // Mostrar la imagen en el canvas
+                        const ctx = canvas.getContext('2d');
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+                    const resizedImage = tf.image.resizeBilinear(tf.browser.fromPixels(image), [128, 128]);
+            
+                    // Cambiar la forma del tensor para que tenga 4 dimensiones
+                    const batchedTensor = resizedImage.expandDims(0); // Agregar una dimensión de lote
+    
+                    // Normalizar la imagen (0-255 a 0-1)
+                    const normalizedTensor = batchedTensor.div(255.0);
+                    var resultado = modelo.predict(normalizedTensor).dataSync();
+
+                    if (resultado > 0.5) {
+                      document.getElementById("resultado2").innerHTML = 'Tiene Roya';
+                  } else {
+                      document.getElementById("resultado2").innerHTML = 'No tiene Roya';
+                  }
+            
+                };
+            }
+        });
+    }
 
     (async() => {
       console.log("Cargando modelos...");
@@ -24,7 +65,8 @@ var tamano = 400;
     })();
 
     window.onload = function() {
-      mostrarCamara();
+        if (camuse){mostrarCamara();}
+        loadImageAndConvertToTensor();
     }
 
     function mostrarCamara() {
@@ -54,6 +96,8 @@ var tamano = 400;
     }
 
     function cambiarCamara() {
+        camuse = true;
+        procesarCamara();
           if (currentStream) {
               currentStream.getTracks().forEach(track => {
                   track.stop();
@@ -81,8 +125,10 @@ var tamano = 400;
       }
 
     function procesarCamara() {
-      ctx.drawImage(video, 0, 0, tamano, tamano, 0, 0, tamano, tamano);
-      setTimeout(procesarCamara, 20);
+        if (camuse){
+            ctx.drawImage(video, 0, 0, tamano, tamano, 0, 0, tamano, tamano);
+            setTimeout(procesarCamara, 20);
+        }
     }
 
     function predecir() {
@@ -112,7 +158,6 @@ var tamano = 400;
         arr = [arr];
         var tensor = tf.tensor4d(arr);
         var resultado = modelo.predict(tensor).dataSync();
-        console.log(resultado);
         if (resultado > 0.5) {
           document.getElementById("resultado2").innerHTML = 'Tiene Roya';
       } else {
