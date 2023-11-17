@@ -15,6 +15,7 @@ var tamano = 400;
 
         // Escuchar el evento change del input de archivo
         inputElement.addEventListener('change', async (event) => {
+          console.log('check1')
             camuse = false;
              const file = event.target.files[0];
                 if (file) {
@@ -62,11 +63,12 @@ var tamano = 400;
     tf.serialization.registerClass(L2);
       modelo = await tf.loadLayersModel("output/model.json");
       console.log("Modelos cargados");
+      if (camuse){mostrarCamara();}
+        loadImageAndConvertToTensor();
     })();
 
     window.onload = function() {
-        if (camuse){mostrarCamara();}
-        loadImageAndConvertToTensor();
+        
     }
 
     function mostrarCamara() {

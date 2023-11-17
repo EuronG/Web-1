@@ -50,13 +50,13 @@ html {
     -moz-border-radius: 20px; -webkit-border-radius: 20px; border-radius: 20px; -khtml-border-radius: 20px; 
 }
 
-#botoncam {
+#cambiar-camara {
     box-shadow: 0px 10px 10px rgba(0,0,0,0.6);
   -moz-box-shadow: 0px 10px 10px rgba(0,0,0,0.6);
   -webkit-box-shadow: 0px 10px 10px rgba(0,0,0,0.6);
 }
 
-#botonimg {
+#inputImage {
     box-shadow: 0px 10px 10px rgba(0,0,0,0.6);
   -moz-box-shadow: 0px 10px 10px rgba(0,0,0,0.6);
   -webkit-box-shadow: 0px 10px 10px rgba(0,0,0,0.6);
